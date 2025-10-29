@@ -19,38 +19,6 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    try {
-      // Remove # from href to get the id
-      const id = href.replace('#', '');
-      const element = document.getElementById(id);
-
-      if (!element) {
-        console.warn(`Element with id "${id}" not found`);
-        setIsMobileMenuOpen(false);
-        return;
-      }
-
-      const headerOffset = 80;
-      const elementTop = element.offsetTop;
-      const offsetPosition = elementTop - headerOffset;
-
-      // Use smooth scrolling
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-
-      // Close mobile menu after navigation starts
-      setTimeout(() => {
-        setIsMobileMenuOpen(false);
-      }, 100);
-    } catch (error) {
-      console.error('Navigation error:', error);
-      setIsMobileMenuOpen(false);
-    }
-  };
-
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -62,34 +30,50 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#home');
+          <button
+            type="button"
+            onClick={() => {
+              const element = document.getElementById('home');
+              if (element) {
+                const headerOffset = 80;
+                const elementTop = element.offsetTop;
+                const offsetPosition = elementTop - headerOffset;
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth'
+                });
+              }
             }}
-            className="text-2xl font-bold gradient-text"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            className="text-2xl font-bold gradient-text bg-transparent border-none cursor-pointer p-0"
           >
             {SITE_NAME}
-          </motion.a>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {NAV_ITEMS.map((item, index) => (
-              <motion.button
+            {NAV_ITEMS.map((item) => (
+              <button
                 key={item.href}
                 type="button"
-                onClick={() => scrollToSection(item.href)}
-                className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer bg-transparent border-none"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const id = item.href.replace('#', '');
+                  const element = document.getElementById(id);
+                  if (element) {
+                    const headerOffset = 80;
+                    const elementTop = element.offsetTop;
+                    const offsetPosition = elementTop - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-normal"
               >
                 {item.label}
-              </motion.button>
+              </button>
             ))}
             <ThemeToggle />
           </div>
@@ -127,7 +111,24 @@ export default function Navigation() {
                 <button
                   key={item.href}
                   type="button"
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const id = item.href.replace('#', '');
+                    const element = document.getElementById(id);
+                    if (element) {
+                      const headerOffset = 80;
+                      const elementTop = element.offsetTop;
+                      const offsetPosition = elementTop - headerOffset;
+                      window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                      });
+                      setTimeout(() => {
+                        setIsMobileMenuOpen(false);
+                      }, 500);
+                    }
+                  }}
                   className="w-full text-left px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-transparent border-none cursor-pointer"
                 >
                   {item.label}
