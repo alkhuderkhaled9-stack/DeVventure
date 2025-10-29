@@ -20,21 +20,33 @@ export default function Navigation() {
   }, []);
 
   const scrollToSection = (href: string) => {
-    // Remove # from href to get the id
-    const id = href.replace('#', '');
-    const element = document.getElementById(id);
+    try {
+      // Remove # from href to get the id
+      const id = href.replace('#', '');
+      const element = document.getElementById(id);
 
-    if (element) {
-      const headerOffset = 80; // Height of fixed navbar + padding
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      if (!element) {
+        console.warn(`Element with id "${id}" not found`);
+        setIsMobileMenuOpen(false);
+        return;
+      }
 
+      const headerOffset = 80;
+      const elementTop = element.offsetTop;
+      const offsetPosition = elementTop - headerOffset;
+
+      // Use smooth scrolling
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
       });
 
-      // Close mobile menu after navigation
+      // Close mobile menu after navigation starts
+      setTimeout(() => {
+        setIsMobileMenuOpen(false);
+      }, 100);
+    } catch (error) {
+      console.error('Navigation error:', error);
       setIsMobileMenuOpen(false);
     }
   };

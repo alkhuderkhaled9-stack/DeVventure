@@ -28,12 +28,25 @@ export default function Footer() {
             <ul className="space-y-2">
               {['Home', 'About', 'Skills', 'Projects', 'Contact'].map((item) => (
                 <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const id = item.toLowerCase();
+                      const element = document.getElementById(id);
+                      if (element) {
+                        const headerOffset = 80;
+                        const elementTop = element.offsetTop;
+                        const offsetPosition = elementTop - headerOffset;
+                        window.scrollTo({
+                          top: offsetPosition,
+                          behavior: 'smooth'
+                        });
+                      }
+                    }}
+                    className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors bg-transparent border-none cursor-pointer p-0 text-left"
                   >
                     {item}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
