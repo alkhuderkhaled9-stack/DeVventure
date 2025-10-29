@@ -22,7 +22,11 @@ export default function Navigation() {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 70;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
       setIsMobileMenuOpen(false);
     }
   };
@@ -77,6 +81,7 @@ export default function Navigation() {
           <div className="flex md:hidden items-center space-x-4">
             <ThemeToggle />
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Toggle menu"
