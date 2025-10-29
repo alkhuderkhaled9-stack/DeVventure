@@ -20,13 +20,21 @@ export default function Navigation() {
   }, []);
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
+    // Remove # from href to get the id
+    const id = href.replace('#', '');
+    const element = document.getElementById(id);
+
     if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 70;
+      const headerOffset = 80; // Height of fixed navbar + padding
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
       window.scrollTo({
-        top: offsetTop,
+        top: offsetPosition,
         behavior: 'smooth'
       });
+
+      // Close mobile menu after navigation
       setIsMobileMenuOpen(false);
     }
   };
@@ -59,20 +67,17 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {NAV_ITEMS.map((item, index) => (
-              <motion.a
+              <motion.button
                 key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.href);
-                }}
-                className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+                type="button"
+                onClick={() => scrollToSection(item.href)}
+                className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer bg-transparent border-none"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 {item.label}
-              </motion.a>
+              </motion.button>
             ))}
             <ThemeToggle />
           </div>
@@ -107,17 +112,14 @@ export default function Navigation() {
           >
             <div className="px-4 py-4 space-y-3">
               {NAV_ITEMS.map((item) => (
-                <a
+                <button
                   key={item.href}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
-                  }}
-                  className="block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  type="button"
+                  onClick={() => scrollToSection(item.href)}
+                  className="w-full text-left px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-transparent border-none cursor-pointer"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
             </div>
           </motion.div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { SITE_NAME, SOCIAL_LINKS } from '@/lib/constants';
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Footer() {
   const iconMap: Record<string, any> = {
@@ -64,10 +64,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-gray-200 dark:border-gray-800 pt-8 text-center">
-          <p className="text-gray-600 dark:text-gray-400 flex items-center justify-center gap-2">
-            Built with <Heart className="w-4 h-4 text-red-500 fill-current" /> using
-            Next.js & Tailwind CSS
-          </p>
+        
           <p className="text-gray-600 dark:text-gray-400 mt-2">
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>

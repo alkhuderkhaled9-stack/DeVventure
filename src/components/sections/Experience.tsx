@@ -30,11 +30,14 @@ export default function Experience() {
           </p>
 
           <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-primary via-secondary to-accent" />
+            {/* Timeline Line - Hidden on mobile, visible on md+ */}
+            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-primary via-secondary to-accent" />
+
+            {/* Timeline Line - Mobile only, on the left */}
+            <div className="md:hidden absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent" />
 
             {/* Timeline Items */}
-            <div className="space-y-12">
+            <div className="space-y-8 md:space-y-12">
               {EXPERIENCE.map((exp, index) => {
                 const Icon = iconMap[exp.type];
                 const isEven = index % 2 === 0;
@@ -51,7 +54,7 @@ export default function Experience() {
                   >
                     {/* Content */}
                     <div
-                      className={`w-full md:w-5/12 ${
+                      className={`w-full md:w-5/12 pl-12 md:pl-0 ${
                         isEven ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8'
                       }`}
                     >
@@ -78,8 +81,11 @@ export default function Experience() {
                       </div>
                     </div>
 
-                    {/* Center Dot */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-gray-950 z-10" />
+                    {/* Center Dot - Desktop */}
+                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-gray-950 z-10" />
+
+                    {/* Left Dot - Mobile */}
+                    <div className="md:hidden absolute left-2 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-gray-950 z-10" />
 
                     {/* Spacer */}
                     <div className="hidden md:block w-5/12" />
